@@ -36,6 +36,7 @@ class CaptureImage: UIViewController, UIImagePickerControllerDelegate, UINavigat
     var topText: String
     var bottomText: String
     var originalImage: UIImage
+    var memedImage: UIImage
     }
     
 
@@ -55,56 +56,64 @@ class CaptureImage: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     func setScreenStyling(){
         
+
+        #if targetEnvironment(simulator)
+        cameraBtn.isEnabled = false
+        #else
         cameraBtn.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        #endif
+      
         
         if(memeImage.image == nil){
-            shareBtn.isEnabled = false
-            pickImageAlertLabel.isHidden = false
+            setMemeImageScreen(memeImageView: memeImage, image: nil, alertLabel: pickImageAlertLabel, isAlertLabelHidden: false, shareBtn: shareBtn, isSHareBtnEnabled: false)
         }
         
-        imageTopTxt.isHidden = true
-        imageTopTxt.text = "TOP".uppercased()
-        imageTopTxt.defaultTextAttributes = memTxtAttributes
-        imageTopTxt.textColor = UIColor.white
-        imageTopTxt.textAlignment = .center
-        imageTopTxt.delegate = txtFieldDelegate
         
+        setupTextField(textField: imageTopTxt, text: "top", isHidden: true, txtColor: UIColor.white, txtAlignment: .center, txtAttributes: memTxtAttributes)
         
-        imageBottomTxt.isHidden = true
-        imageBottomTxt.text = "Bottom".uppercased()
-        imageBottomTxt.defaultTextAttributes = memTxtAttributes
-        imageBottomTxt.textColor = UIColor.white
-        imageBottomTxt.textAlignment = .center
-        imageBottomTxt.delegate = txtFieldDelegate
+        setupTextField(textField: imageBottomTxt, text: "Bottom", isHidden: true, txtColor: UIColor.white, txtAlignment: .center, txtAttributes: memTxtAttributes)
+    }
+    
+    func setMemeImageScreen(memeImageView: UIImageView, image:UIImage?, alertLabel: UILabel, isAlertLabelHidden: Bool, shareBtn: UIBarButtonItem, isSHareBtnEnabled: Bool){
+        memeImageView.image = image
+        alertLabel.isHidden = isAlertLabelHidden
+        shareBtn.isEnabled = isSHareBtnEnabled
+    }
+    
+    func setupTextField(textField: UITextField, text: String, isHidden: Bool, txtColor: UIColor, txtAlignment: NSTextAlignment, txtAttributes: [NSAttributedString.Key: Any]) {
+        textField.isHidden = isHidden
+        textField.text = text.uppercased()
+        textField.defaultTextAttributes = txtAttributes
+        textField.textColor = txtColor
+        textField.textAlignment = txtAlignment
+        textField.delegate = txtFieldDelegate
+      }
+    
+    func resetTextField(textField: UITextField, text: String, isHidden: Bool){
+        textField.text = text.uppercased()
+        textField.isHidden = isHidden
     }
     
     @IBAction func cancelAndReset(){
-        imageTopTxt.text = "TOP".uppercased()
-        imageBottomTxt.text = "Bottom".uppercased()
-        imageTopTxt.isHidden = true
-        imageBottomTxt.isHidden = true
-        memeImage.image = nil
-        shareBtn.isEnabled = false
-        pickImageAlertLabel.isHidden = false
+        resetTextField(textField: imageTopTxt, text: "top", isHidden: true)
+        resetTextField(textField: imageBottomTxt, text: "bottom", isHidden: true)
+        setMemeImageScreen(memeImageView: memeImage, image: nil, alertLabel: pickImageAlertLabel, isAlertLabelHidden: false, shareBtn: shareBtn, isSHareBtnEnabled: false)
     }
     
     @IBAction func pickAnImageFromGallery(){
+        setupAndFireImagePickerController(sourceType: .savedPhotosAlbum)
+    }
+    
+    func setupAndFireImagePickerController(sourceType: UIImagePickerController.SourceType){
         let uiImagePickerController = UIImagePickerController()
         uiImagePickerController.delegate = self
-        uiImagePickerController.sourceType = .savedPhotosAlbum
+        uiImagePickerController.sourceType = sourceType
         uiImagePickerController.mediaTypes = ["public.image"]
         present(uiImagePickerController, animated: true)
     }
     
-    
     @IBAction func pickImageFromCamera(){
-        print("camera action triggered")
-        let uiImagePickerController = UIImagePickerController()
-        uiImagePickerController.delegate = self
-        uiImagePickerController.sourceType = .camera
-        uiImagePickerController.showsCameraControls = true
-        uiImagePickerController.mediaTypes = ["public.image"]
-        present(uiImagePickerController, animated: true)
+        setupAndFireImagePickerController(sourceType: .camera)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -115,17 +124,15 @@ class CaptureImage: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     func setAndAllowMemeCreation(pickedImage: UIImage){
-        memeImage.image = pickedImage
-        imageTopTxt.isHidden = false
-        imageBottomTxt.isHidden = false
-        imageTopTxt.text = "TOP".uppercased()
-        imageBottomTxt.text = "Bottom".uppercased()
-        shareBtn.isEnabled = true
-        pickImageAlertLabel.isHidden = true
+        setMemeImageScreen(memeImageView: memeImage, image: pickedImage, alertLabel: pickImageAlertLabel, isAlertLabelHidden: true, shareBtn: shareBtn, isSHareBtnEnabled: true)
+        resetTextField(textField: imageTopTxt, text: "top", isHidden: false)
+        resetTextField(textField: imageBottomTxt, text: "bottom", isHidden: false)
     }
     
     @objc func keyboardWillShow(_ notification: Notification){
-        view.frame.origin.y = -getKeyboardHeight(notification)
+        if(imageBottomTxt.isFirstResponder){
+            view.frame.origin.y = -getKeyboardHeight(notification)
+        }
     }
     
    
@@ -165,13 +172,7 @@ class CaptureImage: UIViewController, UIImagePickerControllerDelegate, UINavigat
         return screenShort
     }
     @IBAction func shareFinalMemeImageViaActivityController(){
-       
         self.navigationController?.navigationBar.isHidden = true
-//        imgViewOutPut.image = captureIMageFromUIview()
-//        viewImageCapture.isHidden = true
-        
-          
-
         let controller = UIActivityViewController(activityItems: [captureIMageFromUIview() ?? UIImage(named: "broken_image") as Any], applicationActivities: nil)
         controller.completionWithItemsHandler = { activity, completed, items, error in
             if(completed){
@@ -180,13 +181,12 @@ class CaptureImage: UIViewController, UIImagePickerControllerDelegate, UINavigat
             } else{
               print("Sharing meme failed")
             }
-            
         }
         present(controller, animated: true)
     }
     
     func save() {
         // Create the meme
-        let meme = Meme(topText: imageTopTxt.text!, bottomText: imageBottomTxt.text!, originalImage: memeImage.image!)
+        let meme = Meme(topText: imageTopTxt.text!, bottomText: imageBottomTxt.text!, originalImage: memeImage.image!, memedImage: (captureIMageFromUIview() ?? UIImage(named: "broken_image"))!)
     }
 }
