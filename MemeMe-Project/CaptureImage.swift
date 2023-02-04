@@ -32,12 +32,7 @@ class CaptureImage: UIViewController, UIImagePickerControllerDelegate, UINavigat
         NSAttributedString.Key.strokeWidth:  -1,
     ]
     
-    struct Meme {
-    var topText: String
-    var bottomText: String
-    var originalImage: UIImage
-    var memedImage: UIImage
-    }
+    
     
 
     override func viewWillAppear(_ animated: Bool) {
@@ -187,6 +182,12 @@ class CaptureImage: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     func save() {
         // Create the meme
-        let meme = Meme(topText: imageTopTxt.text!, bottomText: imageBottomTxt.text!, originalImage: memeImage.image!, memedImage: (captureIMageFromUIview() ?? UIImage(named: "broken_image"))!)
+        let meme = Meme.Meme(topText: imageTopTxt.text!, bottomText: imageBottomTxt.text!, originalImage: memeImage.image!, memedImage: (captureIMageFromUIview() ?? UIImage(named: "broken_image"))!)
+        
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes.append(meme)
+        
+        dismiss(animated: true)
     }
 }
