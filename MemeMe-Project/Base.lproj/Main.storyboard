@@ -81,7 +81,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please pick an image from the Album or Camera" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Tf-WA-HMH" userLabel="No Image Label">
-                                        <rect key="frame" x="32.333333333333343" y="344.66666666666669" width="365.33333333333326" height="21"/>
+                                        <rect key="frame" x="32.333333333333343" y="344.66666666666669" width="365.33333333333326" height="20.999999999999943"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -342,7 +342,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nAg-y7-wN5" userLabel="Meme Image View">
-                                <rect key="frame" x="20" y="253" width="390" height="397"/>
+                                <rect key="frame" x="0.0" y="103" width="430" height="697"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cannot display this Meme image." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4w-xa-3Bx">
                                 <rect key="frame" x="20" y="143" width="390" height="617"/>
@@ -354,14 +354,14 @@
                         <viewLayoutGuide key="safeArea" id="h0P-a9-0fB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="h0P-a9-0fB" firstAttribute="trailing" secondItem="nAg-y7-wN5" secondAttribute="trailing" constant="20" id="5fh-gy-R6x"/>
-                            <constraint firstItem="h0P-a9-0fB" firstAttribute="bottom" secondItem="nAg-y7-wN5" secondAttribute="bottom" constant="150" id="HDI-Ui-dMl"/>
-                            <constraint firstItem="nAg-y7-wN5" firstAttribute="top" secondItem="h0P-a9-0fB" secondAttribute="top" constant="150" id="W7d-u1-M1V"/>
-                            <constraint firstItem="h0P-a9-0fB" firstAttribute="trailing" secondItem="G4w-xa-3Bx" secondAttribute="trailing" constant="20" id="XUs-CL-V6s"/>
-                            <constraint firstItem="G4w-xa-3Bx" firstAttribute="leading" secondItem="h0P-a9-0fB" secondAttribute="leading" constant="20" id="aA8-Ct-0rU"/>
-                            <constraint firstItem="G4w-xa-3Bx" firstAttribute="top" secondItem="h0P-a9-0fB" secondAttribute="top" constant="40" id="hJf-yn-ZNK"/>
-                            <constraint firstItem="nAg-y7-wN5" firstAttribute="leading" secondItem="h0P-a9-0fB" secondAttribute="leading" constant="20" id="iL8-w8-h0m"/>
-                            <constraint firstItem="h0P-a9-0fB" firstAttribute="bottom" secondItem="G4w-xa-3Bx" secondAttribute="bottom" constant="40" id="sgM-wu-JIx"/>
+                            <constraint firstItem="h0P-a9-0fB" firstAttribute="trailing" secondItem="nAg-y7-wN5" secondAttribute="trailing" id="6ES-IG-X7o"/>
+                            <constraint firstItem="nAg-y7-wN5" firstAttribute="leading" secondItem="h0P-a9-0fB" secondAttribute="leading" id="7Z4-bc-Yfx"/>
+                            <constraint firstItem="G4w-xa-3Bx" firstAttribute="top" secondItem="h0P-a9-0fB" secondAttribute="top" constant="40" id="8KD-g7-stE"/>
+                            <constraint firstItem="h0P-a9-0fB" firstAttribute="bottom" secondItem="nAg-y7-wN5" secondAttribute="bottom" id="A2g-Jz-zo8"/>
+                            <constraint firstItem="G4w-xa-3Bx" firstAttribute="centerY" secondItem="nAg-y7-wN5" secondAttribute="centerY" id="Dee-CD-Nwa"/>
+                            <constraint firstItem="nAg-y7-wN5" firstAttribute="top" secondItem="h0P-a9-0fB" secondAttribute="top" id="S8g-Fv-rnU"/>
+                            <constraint firstItem="G4w-xa-3Bx" firstAttribute="centerX" secondItem="nAg-y7-wN5" secondAttribute="centerX" id="atJ-KY-xJc"/>
+                            <constraint firstItem="G4w-xa-3Bx" firstAttribute="leading" secondItem="rNl-fE-ROb" secondAttribute="leadingMargin" id="kwy-Eo-Rhr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YD0-fc-6RE"/>
