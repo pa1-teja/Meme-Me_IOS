@@ -20,13 +20,17 @@ class MemeDetailViewController: UIViewController {
         super.viewDidLoad()
 
         if(chosenMeme != nil){
-            memeNotAvailable.isHidden = true
-            chosenMemeImageView.isHidden = false
+            toggleOnScreenMemesVisibility(isMemeDataAvailable: true)
             chosenMemeImageView.image = chosenMeme.memedImage
         } else{
-            memeNotAvailable.isHidden = false
-            chosenMemeImageView.isHidden = true
+            toggleOnScreenMemesVisibility(isMemeDataAvailable: false)
         }
+    }
+    
+    
+    func toggleOnScreenMemesVisibility(isMemeDataAvailable: Bool){
+        memeNotAvailable.isHidden = isMemeDataAvailable
+        chosenMemeImageView.isHidden = !isMemeDataAvailable
     }
 
 }

@@ -25,17 +25,25 @@ class MemesTableViewController: UITableViewController{
         navigationController?.toolbar.isHidden = false
     
         if(memes.isEmpty){
-            emptyMessage.isHidden = false
+            toggleMemesEmptyMsgVisibility(isMemeDataAvailable: false)
         } else{
-            emptyMessage.isHidden = true
+            toggleMemesEmptyMsgVisibility(isMemeDataAvailable: true)
         }
     }
  
     override func viewWillAppear(_ animated: Bool) {
         if(!memes.isEmpty){
-            tableView.reloadData()
-            emptyMessage.isHidden = true
+            toggleMemesEmptyMsgVisibility(isMemeDataAvailable: true)
+            refreshMemeDataOnTableView()
         }
+    }
+    
+    func refreshMemeDataOnTableView(){
+        tableView.reloadData()
+    }
+    
+    func toggleMemesEmptyMsgVisibility(isMemeDataAvailable: Bool){
+        emptyMessage.isHidden = isMemeDataAvailable
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

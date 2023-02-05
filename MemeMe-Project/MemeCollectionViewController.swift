@@ -23,7 +23,8 @@ class MemeCollectionViewController: UICollectionViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if(!memes.isEmpty){
-            collectionView.reloadData()
+            refreshMemeDataOnCollectionView()
+            toggleMemesEmptyMsgVisibility(isMemeDataAvailable: true)
         }
         tabBarController?.tabBar.isHidden = false
     }
@@ -32,9 +33,9 @@ class MemeCollectionViewController: UICollectionViewController{
         super.viewDidLoad()
         
         if(memes.isEmpty){
-            emptyMessage.isHidden = false
+            toggleMemesEmptyMsgVisibility(isMemeDataAvailable: false)
         } else{
-            emptyMessage.isHidden = true
+            toggleMemesEmptyMsgVisibility(isMemeDataAvailable: true)
         }
         
         let space: CGFloat = 3.0
@@ -45,12 +46,14 @@ class MemeCollectionViewController: UICollectionViewController{
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
     }
     
+    func refreshMemeDataOnCollectionView(){
+        collectionView.reloadData()
+    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-          let itemWidth = collectionView.bounds.width
-          let itemHeight = collectionView.bounds.height
-          return CGSize(width: itemWidth, height: itemHeight)
-  }
+    func toggleMemesEmptyMsgVisibility(isMemeDataAvailable: Bool){
+        emptyMessage.isHidden = isMemeDataAvailable
+    }
+    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return memes.count
